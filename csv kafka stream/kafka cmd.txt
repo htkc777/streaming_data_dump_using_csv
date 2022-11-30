@@ -1,0 +1,65 @@
+**Note: Support for JAVA8 is deprecated across all components of the Apache Kafka project in 3.0
+
+.\bin\windows\zookeeper-server-start.bat C:\kafka\config\zookeeper.properties
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties----------main
+
+.\bin\windows\kafka-server-start.bat C:\kafka\config\server.properties
+.\bin\windows\kafka-server-start.bat .\config\server.properties----------------main
+
+---------------------------------------------------------------------------
+Commanad for kafka topic
+
+Old
+----
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partition 1 --topic test
+
+New
+----
+kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 4
+or
+kafka-topics.bat --create --bootstrap-server localhost:9092 --topic cities
+--------------------------------------------------------------------------------
+To checklist of topic created
+
+Deprecated
+-----------
+kafka-topics.bat --list --zookeeper localhost:2181
+or
+kafka-topics.bat --list ----bootstrap-server localhost:2181
+
+New
+----
+C:\kafka_2.12-3.3.1\bin\windows>kafka-topics.bat --list --bootstrap-server localhost:9092
+
+
+**
+zookeeper is almost never used for CLI commands in current versions
+Newer versions(2.2+) of Kafka no longer requires ZooKeeper connection string
+--zookeeper localhost:2181
+
+It throws the following exception while creating a topic
+
+Exception in thread "main" joptsimple.UnrecognizedOptionException: zookeeper is not a recognized option
+
+Instead, add Kafka Broker --bootstrap-server localhost:9092 connection string
+
+
+
+https://blog.loginradius.com/engineering/quick-kafka-installation/
+
+
+
+Creating Kafka Producer:
+Open a new command prompt in the location C:\kafka\bin\windows
+Run the following command:
+
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic test
+
+--------------------------------------------------------------------------------
+
+Creating Kafka Consumer:
+Open a new command prompt in the location C:\kafka\bin\windows.
+Run the following command:
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning
